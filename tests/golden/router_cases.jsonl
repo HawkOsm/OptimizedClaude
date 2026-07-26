@@ -1,0 +1,46 @@
+{"id": 1, "session_active": false, "message": "fix the udp packet loss issue", "expected": "TASK_NEW", "note": "fresh session, task-shaped, vague enough to clarify"}
+{"id": 2, "session_active": false, "message": "refactor the telemetry module", "expected": "TASK_NEW"}
+{"id": 3, "session_active": false, "message": "what does grep -r do", "expected": "TRIVIAL"}
+{"id": 4, "session_active": false, "message": "how do i exit vim", "expected": "TRIVIAL"}
+{"id": 5, "session_active": false, "message": "make the game better", "expected": "TASK_NEW", "note": "maximally vague task; clarifier's problem, not router's"}
+{"id": 6, "session_active": false, "message": "add tests for qr detection", "expected": "TASK_NEW"}
+{"id": 7, "session_active": false, "message": "why does python have a GIL", "expected": "TRIVIAL"}
+{"id": 8, "session_active": false, "message": "hello", "expected": "PASSTHROUGH", "note": "greeting; never TASK_NEW"}
+{"id": 9, "session_active": false, "message": "ModuleNotFoundError: No module named cv2 — what does this mean", "expected": "TRIVIAL", "note": "generic error, answerable from general knowledge"}
+{"id": 10, "session_active": false, "message": "whats the difference between tcp and udp", "expected": "TRIVIAL"}
+{"id": 11, "session_active": false, "message": "şu udp bağlantı kopması sorununu düzelt", "expected": "TASK_NEW", "note": "Turkish task"}
+{"id": 12, "session_active": false, "message": "convert the dive trigger calc to use band fractions only", "expected": "TASK_NEW"}
+{"id": 13, "session_active": true, "message": "yes", "expected": "PASSTHROUGH", "must_pass": true, "note": "heuristic tier, but LLM must also agree"}
+{"id": 14, "session_active": true, "message": "do it", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 15, "session_active": true, "message": "now fix the test", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 16, "session_active": true, "message": "no, the other file", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 17, "session_active": true, "message": "run it again", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 18, "session_active": true, "message": "why did you change that function", "expected": "PASSTHROUGH", "must_pass": true, "note": "anaphora: 'you', 'that'"}
+{"id": 19, "session_active": true, "message": "that broke the build, revert it", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 20, "session_active": true, "message": "also add logging to it", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 21, "session_active": true, "message": "use the second approach", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 22, "session_active": true, "message": "hmm ok but make it faster", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 23, "session_active": true, "message": "continue", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 24, "session_active": true, "message": "devam et", "expected": "PASSTHROUGH", "must_pass": true, "note": "Turkish continuation"}
+{"id": 25, "session_active": true, "message": "olmadı, tekrar dene", "expected": "PASSTHROUGH", "must_pass": true, "note": "Turkish: didn't work, retry"}
+{"id": 26, "session_active": true, "message": "the fix works but now the telemetry thread is dropping packets again when the ftp upload runs, look at the handshake you added", "expected": "PASSTHROUGH", "must_pass": true, "note": "LONG but anaphoric continuation — the classic router trap"}
+{"id": 27, "session_active": true, "message": "commit this and write a good message", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 28, "session_active": true, "message": "what did you change in the last edit", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 29, "session_active": true, "message": "ok new thing: build a folium map visualizer for the mission geometry", "expected": "TASK_NEW", "note": "explicit topic switch"}
+{"id": 30, "session_active": true, "message": "switch topics — set up github actions ci for this repo", "expected": "TASK_NEW"}
+{"id": 31, "session_active": true, "message": "next task: add a config file parser", "expected": "TASK_NEW"}
+{"id": 32, "session_active": true, "message": "btw what does the walrus operator do in python", "expected": "TRIVIAL", "note": "trivial aside mid-session"}
+{"id": 33, "session_active": true, "message": "quick q, what port does ssh use by default", "expected": "TRIVIAL"}
+{"id": 34, "session_active": true, "message": "which function computes the trigger altitude in this repo", "expected": "PASSTHROUGH", "must_pass": true, "note": "repo question, NEVER trivial"}
+{"id": 35, "session_active": true, "message": "does our qr system use the wechat detector or zbar", "expected": "PASSTHROUGH", "must_pass": true, "note": "'our' = repo knowledge"}
+{"id": 36, "session_active": true, "message": "explain what calculate_trigger_alt does", "expected": "PASSTHROUGH", "must_pass": true, "note": "named repo symbol"}
+{"id": 37, "session_active": false, "message": "write a regex to match an ipv4 address", "expected": "TRIVIAL", "note": "self-contained snippet; PASSTHROUGH also acceptable, TASK_NEW is a fail"}
+{"id": 38, "session_active": false, "message": "fiix the streamm callback unpacking bug in the jetson script", "expected": "TASK_NEW", "note": "typos carry no signal"}
+{"id": 39, "session_active": false, "message": "kdenlive'de video nasıl kırpılır", "expected": "TRIVIAL", "note": "Turkish general how-to"}
+{"id": 40, "session_active": true, "message": "u there?", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 41, "session_active": true, "message": "thanks", "expected": "PASSTHROUGH", "must_pass": true}
+{"id": 42, "session_active": true, "message": "add error handling everywhere", "expected": "PASSTHROUGH", "note": "imperative continuation of current work, no new nouns; TASK_NEW tolerated"}
+{"id": 43, "session_active": true, "message": "start over with a cleaner architecture for the whole mission controller", "expected": "TASK_NEW", "note": "new goal despite referencing the project"}
+{"id": 44, "session_active": false, "message": "wht is uv and why use it over pip", "expected": "TRIVIAL"}
+{"id": 45, "session_active": false, "message": "help", "expected": "PASSTHROUGH"}
+{"id": 46, "session_active": false, "message": "implement apf avoidance in the sim, with the hss zones coming from the config file", "expected": "TASK_NEW", "note": "specific task; clarifier may return zero questions"}
