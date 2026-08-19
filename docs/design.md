@@ -5,14 +5,14 @@ no code exists yet; when code and this doc disagree, one of them is wrong and mu
 
 ## 0. Locked decisions
 
-| # | Decision | Choice | Why |
-|---|----------|--------|-----|
-| D1 | Claude transport | Wrap Claude Code CLI via **claude-agent-sdk (Python)** | Subscription auth works (SDK spawns the `claude` CLI as subprocess); no API billing needed |
-| D2 | Scope | **Stay in loop** — the tool is the terminal frontend for the whole session | Osm's choice; enables routing/triage on every message |
-| D3 | Language | Python | — |
-| D4 | Local model class | 7–8B Q4 on GPU, single model | 8GB VRAM fits one 7–8B fully resident; two models would thrash |
-| D5 | Runtime env | **uv-managed venv, Python 3.12 pinned** | System python is 3.14 (too new for some wheels); and no repeat of the numpy `--user` site-packages disaster |
-| D6 | Cache stance | Never touch Claude session history; only shape new outgoing messages | Cache-safe by construction |
+| #  | Decision          | Choice                                                                            | Why                                                                                                          |
+| -- | ----------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| D1 | Claude transport  | Wrap Claude Code CLI via**claude-agent-sdk (Python)**                       | Subscription auth works (SDK spawns the`claude` CLI as subprocess); no API billing needed                  |
+| D2 | Scope             | **Stay in loop** — the tool is the terminal frontend for the whole session | Osm's choice; enables routing/triage on every message                                                        |
+| D3 | Language          | Python                                                                            | —                                                                                                           |
+| D4 | Local model class | 7–8B Q4 on GPU, single model                                                     | 8GB VRAM fits one 7–8B fully resident; two models would thrash                                              |
+| D5 | Runtime env       | **uv-managed venv, Python 3.12 pinned**                                     | System python is 3.14 (too new for some wheels); and no repeat of the numpy`--user` site-packages disaster |
+| D6 | Cache stance      | Never touch Claude session history; only shape new outgoing messages              | Cache-safe by construction                                                                                   |
 
 ## 1. Verified environment (live-checked 2026-07-26)
 
@@ -95,15 +95,15 @@ Modules: `ui/repl.py`, `core/router.py`, `core/clarifier.py`, `core/compiler.py`
 ("yes", "now fix the test", "no, the other file") must fly through untouched, or the tool
 gets uninstalled in a day.
 
-| Condition | Class | LLM call? |
-|---|---|---|
-| Message starts with `/` | META | no |
-| Session active AND len < 40 chars | PASSTHROUGH | no (pure heuristic) |
-| Session active AND anaphoric/contextual (pronouns, "it", "that", imperative continuations) | PASSTHROUGH | router LLM confirms |
-| No active session AND message is task-shaped | TASK_NEW | yes |
-| Session active AND message states a NEW goal (no anaphora, new nouns) | TASK_NEW (ask: `[c]ompile or [p]ass?`) | yes |
-| Question-shaped, answerable without repo knowledge (syntax, flags, concepts) | TRIVIAL | yes |
-| **Router unsure (confidence < threshold) or errors** | **PASSTHROUGH** | — |
+| Condition                                                                                  | Class                                   | LLM call?           |
+| ------------------------------------------------------------------------------------------ | --------------------------------------- | ------------------- |
+| Message starts with`/`                                                                   | META                                    | no                  |
+| Session active AND len < 40 chars                                                          | PASSTHROUGH                             | no (pure heuristic) |
+| Session active AND anaphoric/contextual (pronouns, "it", "that", imperative continuations) | PASSTHROUGH                             | router LLM confirms |
+| No active session AND message is task-shaped                                               | TASK_NEW                                | yes                 |
+| Session active AND message states a NEW goal (no anaphora, new nouns)                      | TASK_NEW (ask:`[c]ompile or [p]ass?`) | yes                 |
+| Question-shaped, answerable without repo knowledge (syntax, flags, concepts)               | TRIVIAL                                 | yes                 |
+| **Router unsure (confidence < threshold) or errors**                                 | **PASSTHROUGH**                   | —                  |
 
 Failsafe direction is always PASSTHROUGH: wrongly passing a compilable prompt costs a
 little; wrongly interrogating the user costs trust.
@@ -186,15 +186,15 @@ Only one Claude stream at a time; input during streaming is queued (or Ctrl+C to
 
 ## 11. Degradation matrix
 
-| Failure | Behavior |
-|---|---|
-| Ollama not running / unreachable | Banner `local layer offline — passthrough mode`; everything routes straight to Claude |
-| Local call > 4 s | Abandon call, PASSTHROUGH, log warning |
-| Local JSON invalid twice | PASSTHROUGH (router) / abort with message (compiler) |
-| `claude` spawn fails | Show CLI stderr verbatim, exit nonzero |
-| Session resume rejected (version mismatch) | Offer `/new`, print pinning hint |
-| Ledger write fails | Warn once, keep running |
-| Layer crashes mid-stream | Claude session survives on disk; restart offers resume |
+| Failure                                    | Behavior                                                                                |
+| ------------------------------------------ | --------------------------------------------------------------------------------------- |
+| Ollama not running / unreachable           | Banner`local layer offline — passthrough mode`; everything routes straight to Claude |
+| Local call > 4 s                           | Abandon call, PASSTHROUGH, log warning                                                  |
+| Local JSON invalid twice                   | PASSTHROUGH (router) / abort with message (compiler)                                    |
+| `claude` spawn fails                     | Show CLI stderr verbatim, exit nonzero                                                  |
+| Session resume rejected (version mismatch) | Offer`/new`, print pinning hint                                                       |
+| Ledger write fails                         | Warn once, keep running                                                                 |
+| Layer crashes mid-stream                   | Claude session survives on disk; restart offers resume                                  |
 
 ## 12. Test strategy
 
@@ -223,13 +223,13 @@ Only one Claude stream at a time; input during streaming is queued (or Ctrl+C to
 
 ## 14. Open items (defaults apply if no objection)
 
-| Item | Default |
-|---|---|
-| Project name | **OptimizedClaude** (repo); python package + CLI command: `ocl` |
-| REPL lib | `prompt_toolkit` v1; Textual only if scrollback/stream rendering hurts |
-| Where triage answers come from | Same 7–8B model, no web access, tagged `[local]` |
-| Trivial-answer risk appetite | Conservative: router requires high confidence for TRIVIAL, else PASSTHROUGH |
-| Repo layout | `src/ocl/` + `prompts/` + `tests/`; `pyproject.toml` via uv |
+| Item                           | Default                                                                     |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| Project name                   | **OptimizedClaude** (repo); python package + CLI command: `ocl`     |
+| REPL lib                       | `prompt_toolkit` v1; Textual only if scrollback/stream rendering hurts    |
+| Where triage answers come from | Same 7–8B model, no web access, tagged`[local]`                          |
+| Trivial-answer risk appetite   | Conservative: router requires high confidence for TRIVIAL, else PASSTHROUGH |
+| Repo layout                    | `src/ocl/` + `prompts/` + `tests/`; `pyproject.toml` via uv         |
 
 ## 15. Build order (maps to roadmap phases)
 

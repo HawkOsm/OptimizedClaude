@@ -1,27 +1,34 @@
 import json
-from datetime import datetime
 
+from .events import Events, RouteDecision, UserInput
 
-class UserInput:
-    def __init__(self, text: str):
-        self.text = text
-        self.timestamp = datetime.now().isoformat()
-        self.session_id = None  # Placeholder for session ID, can be set later if needed
-
-    def json(self):
-        return {"v": 1, "ts": self.timestamp,"session_id": self.session_id, "event": "user_input", "text": self.text}
 
 class Ledger:
-    def __init__(self, path: str):
+    def __init__(self, path: str) -> None:
         self.path = path
 
-    def emit(self, user_input: UserInput):
-        user_input_json = user_input.json()
+    def emit(self, event: Events) -> None:
+        event_json = event.json()
         with open(self.path, 'a') as f:
-            f.write(json.dumps(user_input_json) + '\n')
+            f.write(json.dumps(event_json) + '\n')
 
-    def read(self):
+    @classmethod
+    def from_dict(cls, data: dict) -> Events:
+        event_type = data.get("event")
+        if event_type == "user_input":
+            return UserInput(text=data.get("text"), timestamp=data.get("ts"))
+        elif event_type == "route_decision":
+            return RouteDecision(confidence=data.get("confidence"), 
+                                 source=data.get("source"), 
+                                 route_class=data.get("route_class"),
+                                 latency_ms=data.get("latency"),
+                                 timestamp=data.get("ts"))
+        else:
+            raise ValueError(f"Unknown event type: {event_type}")
+        
+        
+    def read(self) -> list[Events]:
         contents = []
         with open(self.path) as f:
-            contents = [UserInput(json.loads(line)['text']) for line in f]
+            contents = [self.from_dict(json.loads(line)) for line in f]
         return contents
