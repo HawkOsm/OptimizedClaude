@@ -2,7 +2,8 @@ from datetime import UTC, datetime
 
 from freezegun import freeze_time
 
-from ocl.events import RouteDecision, UserInput
+from ocl.events.route_decision import RouteDecision
+from ocl.events.user_input import UserInput
 from ocl.legder import Ledger
 
 
@@ -13,13 +14,14 @@ def test_user_input_roundtrip(tmp_path: str) -> None:
     temp_file = tmp_path / "test_ledger.txt"
 
     # Initialize Ledger with the temporary file path
-    ledger = Ledger(str(temp_file))
+    ledger = Ledger(path=temp_file)
 
     # Create a UserInput instance
-    user_input = UserInput("Test input")
-    route_decision = RouteDecision(confidence=0.95, 
-                                   source="heuristics", 
-                                   route_class="task_new")
+    user_input = UserInput(text="Test input", session_id="session_123")
+    route_decision = RouteDecision(confidence=0.95,
+                                   source="heuristics",
+                                   route_class="passthrough",
+                                   session_id="session_123")
 
     # Expected latency
     latency = route_decision.latency_ms
@@ -33,12 +35,15 @@ def test_user_input_roundtrip(tmp_path: str) -> None:
     contents = ledger.read()
     
     # Assert that the contents match the emitted input
-    assert UserInput("Test input", timestamp=timestamp).json() \
-        == contents[0].json() \
+    assert UserInput(text="Test input", 
+                     timestamp=timestamp, 
+                     session_id="session_123").model_dump_json() \
+        == contents[0].model_dump_json() \
         and RouteDecision(confidence=0.95, 
                           source="heuristics", 
-                          route_class="task_new",
+                          route_class="passthrough",
                           latency_ms=latency,
-                          timestamp=timestamp).json() \
-        == contents[1].json()
+                          timestamp=timestamp,
+                          session_id="session_123").model_dump_json() \
+        == contents[1].model_dump_json()
     
