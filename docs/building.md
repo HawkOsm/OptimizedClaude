@@ -127,6 +127,40 @@ $ ocl
   `kill -9` the wrapper mid-task → restart → resume works.
 - Review checkpoint: the ClaudeSession class + your lifecycle drawing.
 
+### M2 front-end decision (open — decide before building M2)
+
+The text above is **option A**. There is a second option, found later, that may fit
+the original idea ("steer the chat from inside Claude Code") better. Choose one and
+record it as an ADR; the Python core (ledger, events, stats, router, clarifier,
+compiler, goldens) is the same under both.
+
+- **A. Wrapper REPL (above).** `ocl` is its own terminal program. It drives Claude Code
+  headlessly through `claude-agent-sdk` and you type into `ocl`, not into Claude Code.
+  Open risk: whether a Pro/Max subscription login may be used through the Agent SDK is
+  unverified (see `docs/design.md` D1 and the roadmap's "verify early" item; Anthropic's
+  legal page says Pro/Max limits assume ordinary individual use of Claude Code and the
+  Agent SDK, but also that developers building products should use API keys).
+- **B. Claude Code mod.** The UI stays the real Claude Code. A mod (a plugin written in
+  JS/TS, needs Claude Code v2.1.287+) adds a hotkey or button that opens the local
+  layer, so Enter stays a plain send and the hotkey means "refine this first".
+  What the docs say a mod can do: draw panes, buttons and text fields, rewrite a prompt,
+  add `/commands`, start processes. Keybindings alone and prompt hooks alone cannot do
+  this (a hook can only add context or block, not rewrite or ask the user).
+  - Layout: a `mod/` folder in this repo (`.claude-plugin/plugin.json`,
+    `hooks/hooks.json`, `hooks/register.js`) that is a thin UI. It calls the Python core
+    as a process (for example an `ocl` command that takes the message and prints JSON).
+    That bridge is the intended design but is **untested**.
+  - Benefits: no separate REPL, no async stream plumbing, and no SDK auth question,
+    because it runs inside the Claude Code you are already signed into.
+  - Costs and unknowns: mods are JS/TS (the UI part is not Python), they run with your
+    full permissions, the feature is new, and the router becomes manual-trigger (the
+    `PASSTHROUGH` goldens, 24 of 46, would need to be rethought).
+- **Before choosing:** read the mods pages (overview, create a mod, draw in the
+  interface, react to events) and try one sample mod from Anthropic's
+  `claude-code-playground` repository with `--plugin-dir`. Then write the ADR.
+- Sources: https://code.claude.com/docs/en/plugins/mods/overview ·
+  https://code.claude.com/docs/en/hooks · https://code.claude.com/docs/en/keybindings
+
 ## M3 — Heuristic router + golden harness (the SQA milestone)
 
 **Picture:** still no Ollama. `route(msg, session_active)` returns a decision from pure
