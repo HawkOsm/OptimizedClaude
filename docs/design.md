@@ -116,8 +116,9 @@ enforced, pydantic-validated, 1 retry on parse failure, then PASSTHROUGH.
 ```python
 class ContextRef(BaseModel):
     path: str
-    lines: str | None      # "120-180"
+    lines: str | None  # "120-180"
     why: str
+
 
 class TaskSpec(BaseModel):
     goal: str
@@ -125,7 +126,7 @@ class TaskSpec(BaseModel):
     context_refs: list[ContextRef] = []
     acceptance: list[str] = []
     non_goals: list[str] = []
-    raw_user_words: str     # verbatim original request, always included
+    raw_user_words: str  # verbatim original request, always included
 ```
 
 Rendering to the outgoing prompt is **deterministic Python string templating** from the

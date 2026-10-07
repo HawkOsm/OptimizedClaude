@@ -18,34 +18,42 @@ def test_user_input_roundtrip(tmp_path: str) -> None:
 
     # Create a UserInput instance
     user_input = UserInput(text="Test input", session_id="session_123")
-    route_decision = RouteDecision(confidence=0.95,
-                                   source="heuristics",
-                                   route_class="passthrough",
-                                   session_id="session_123")
+    route_decision = RouteDecision(
+        confidence=0.95,
+        source="heuristics",
+        route_class="passthrough",
+        session_id="session_123",
+    )
 
     # Expected latency
     latency = route_decision.latency_ms
-    
+
     ledger.emit(user_input)
     ledger.emit(route_decision)
-    timestamp = datetime.fromisoformat("2023-01-01 12:00:00"
-                                       ).replace(tzinfo=UTC).isoformat()
+    timestamp = (
+        datetime.fromisoformat("2023-01-01 12:00:00").replace(tzinfo=UTC).isoformat()
+    )
     # Read the contents of the ledger
     contents = ledger.read()
-    
+
     # Assert that the contents match the emitted input
-    assert UserInput(text="Test input", 
-                     timestamp=timestamp, 
-                     session_id="session_123").model_dump_json() \
-        == contents[0].model_dump_json() \
-        and RouteDecision(confidence=0.95, 
-                          source="heuristics", 
-                          route_class="passthrough",
-                          latency_ms=latency,
-                          timestamp=timestamp,
-                          session_id="session_123").model_dump_json() \
+    assert (
+        UserInput(
+            text="Test input", timestamp=timestamp, session_id="session_123"
+        ).model_dump_json()
+        == contents[0].model_dump_json()
+        and RouteDecision(
+            confidence=0.95,
+            source="heuristics",
+            route_class="passthrough",
+            latency_ms=latency,
+            timestamp=timestamp,
+            session_id="session_123",
+        ).model_dump_json()
         == contents[1].model_dump_json()
-    
+    )
+
+
 def test_input_validation(tmp_path: str) -> None:
     # Create a temporary file path
     invalid_file = tmp_path / "test_ledger.txt"
@@ -77,8 +85,3 @@ def test_input_validation(tmp_path: str) -> None:
     event = valid_ledger.read().pop()
     assert event.text == "Test input"
     assert event.session_id is None
-
-    
-   
-
-    

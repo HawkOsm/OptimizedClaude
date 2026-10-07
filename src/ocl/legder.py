@@ -27,11 +27,9 @@ class Ledger(BaseModel):
                     events.append(validated_event)
         return events
 
-    def validate_line(self, line: str) -> Events | None:    
+    def validate_line(self, line: str) -> Events | None:
         try:
             adapted_event = _adapter.validate_json(line)
             return adapted_event if isinstance(adapted_event, Events) else None
         except ValidationError:
             return None
-
-     

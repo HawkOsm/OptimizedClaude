@@ -1,4 +1,3 @@
-
 from typing import Literal
 
 from pydantic import BaseModel
@@ -7,7 +6,6 @@ from ocl.events.base import Events
 
 
 class Stats(BaseModel):
-
     user_inputs: int = 0
     route_decisions: int = 0
     route_class_counts: dict[

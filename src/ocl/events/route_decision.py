@@ -8,8 +8,8 @@ from ocl.events.base import Events
 
 class RouteDecision(Events):
     event: Literal["route_decision"] = "route_decision"
-    source: Literal['heuristics', 'llm', 'fallback']
-    route_class: Literal['passthrough', 'task_new', 'trivial', 'meta']
+    source: Literal["heuristics", "llm", "fallback"]
+    route_class: Literal["passthrough", "task_new", "trivial", "meta"]
     confidence: float | None = None
     latency_ms: float | None = Field(default=None, validate_default=True)
 
