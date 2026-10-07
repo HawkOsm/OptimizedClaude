@@ -1,4 +1,4 @@
-.PHONY: test lint lint-fix goldens
+.PHONY: test lint lint-fix format goldens
 
 test:
 	uv run pytest
@@ -9,6 +9,9 @@ lint:
 
 lint-fix:
 	uv run ruff check --fix .
+
+format:
+	uv run ruff format .
 
 goldens:
 	echo "no golden harness yet (M3)"
