@@ -87,8 +87,7 @@ LedgerStats(claude_turns=0, input_tokens=0, …)
   `event`), append-only writer (crash-safe: one line = one atomic append), reader,
   and a `stats()` function that folds events into the benchmark metrics. Then config:
   load TOML with precedence per-repo > global > defaults, unknown keys warn.
-- Search: `pydantic v2 discriminated union` · `python jsonl append` · `event sourcing
-  basics` · `tomllib python` · `pytest tmp_path fixture` · `dataclass vs pydantic when`
+- Search: `pydantic v2 discriminated union` · `python jsonl append` · `event sourcing basics` · `tomllib python` · `pytest tmp_path fixture` · `dataclass vs pydantic when`
 - Focus: **schema first, code second.** The interesting design question: how do you
   version events so a v2 field addition doesn't break reading old files? Decide, write
   an ADR.
@@ -193,8 +192,7 @@ router[heuristic+llm/qwen2.5:7b]: 44/46 · must_pass: 20/20 ✓ · p95 latency 3
 - Build: install Ollama, pull 2–3 candidate models; `core/localllm.py` (async httpx
   client, `format=json`, timeout, retry-once ladder, degrade signal); LLM router tier
   behind the heuristics; G1 bake-off = goldens run per model, results table committed.
-- Search: `ollama api chat format json schema` · `ollama keep_alive` · `httpx async
-  client timeout` · `small llm structured output reliability` · `ollama gpu vram check`
+- Search: `ollama api chat format json schema` · `ollama keep_alive` · `httpx async client timeout` · `small llm structured output reliability` · `ollama gpu vram check`
 - Focus: the failure ladder (schemas.md → design.md §8). Every LLM call site follows
   the same pattern; extract it once, reuse.
 - Traps: cold-start latency counted as model quality; trusting `confidence` blindly
@@ -209,8 +207,7 @@ router[heuristic+llm/qwen2.5:7b]: 44/46 · must_pass: 20/20 ✓ · p95 latency 3
 - Build: clarify state (pending questions, collected answers) in the REPL flow;
   compiler → TaskSpec (pydantic) → deterministic render (schemas.md §3) → y/e/n review
   → send; `/quick`, `/task`, `/pass`, `/spec` commands; clarifier goldens harness.
-- Search: `python state machine enum` · `pydantic model_validate_json` · `prompt_toolkit
-  multiline edit` (for `e`)
+- Search: `python state machine enum` · `pydantic model_validate_json` · `prompt_toolkit multiline edit` (for `e`)
 - Focus: the session state machine (design.md §9) — implement it as explicit states,
   not nested ifs. This is the second big architecture rep.
 - Done when: clarifier goldens pass (incl. the two zero-question cases); render

@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local copies of the hands-on-mentor teaching skills (published in their own repo)
+.claude/skills/
