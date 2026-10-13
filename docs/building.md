@@ -15,12 +15,12 @@ and when it's done. Work top to bottom; don't skip milestones.
 
 ## The picture — what the finished tool looks like
 
-One terminal. You run `ocl` inside a repo and it feels like Claude Code, except a local
+One terminal. You run `prl` inside a repo and it feels like Claude Code, except a local
 model quietly filters what reaches Claude:
 
 ```
-$ ocl
-[ocl] resuming session 4f2a… · local: qwen2.5:7b · /help for commands
+$ prl
+[prl] resuming session 4f2a… · local: qwen2.5:7b · /help for commands
 
 > fix the udp issue
 [local] two quick questions:
@@ -42,7 +42,7 @@ $ ocl
 ```
 
 Three behaviors, one loop: clarify-and-compile new tasks, pass follow-ups through
-untouched, answer trivia locally. Everything logged to `.ocl/ledger.jsonl`.
+untouched, answer trivia locally. Everything logged to `.prl/ledger.jsonl`.
 
 ## Ground rules (apply from day one)
 
@@ -77,7 +77,7 @@ untouched, answer trivia locally. Everything logged to `.ocl/ledger.jsonl`.
 **Picture:** no UI yet. A module you can drive from a Python REPL:
 
 ```python
->>> led = Ledger(Path(".ocl/ledger.jsonl"))
+>>> led = Ledger(Path(".prl/ledger.jsonl"))
 >>> led.emit(UserInput(text="fix the udp issue"))
 >>> stats(led.read())
 LedgerStats(claude_turns=0, input_tokens=0, …)
@@ -102,8 +102,8 @@ LedgerStats(claude_turns=0, input_tokens=0, …)
 **Picture:** a usable Claude Code frontend with zero local intelligence:
 
 ```
-$ ocl
-[ocl] new session · /help
+$ prl
+[prl] new session · /help
 > explain the repo structure
 [claude] This repo contains… ⚙ Read README.md
 > ^C                                  ← interrupts the stream, doesn't kill the session
@@ -111,7 +111,7 @@ $ ocl
 
 - Build: async REPL (prompt_toolkit), `ClaudeSession` wrapper around `ClaudeSDKClient`
   (connect, send, stream events, interrupt, session_id persistence to
-  `.ocl/session.json`, resume on restart), permission callback rendered as a REPL
+  `.prl/session.json`, resume on restart), permission callback rendered as a REPL
   prompt, every event → ledger.
 - Search: `python asyncio tasks tutorial` · `asyncio cancellation CancelledError` ·
   `claude agent sdk python quickstart` · `ClaudeSDKClient receive_response` ·
@@ -133,8 +133,8 @@ the original idea ("steer the chat from inside Claude Code") better. Choose one 
 record it as an ADR; the Python core (ledger, events, stats, router, clarifier,
 compiler, goldens) is the same under both.
 
-- **A. Wrapper REPL (above).** `ocl` is its own terminal program. It drives Claude Code
-  headlessly through `claude-agent-sdk` and you type into `ocl`, not into Claude Code.
+- **A. Wrapper REPL (above).** `prl` is its own terminal program. It drives Claude Code
+  headlessly through `claude-agent-sdk` and you type into `prl`, not into Claude Code.
   Open risk: whether a Pro/Max subscription login may be used through the Agent SDK is
   unverified (see `docs/design.md` D1 and the roadmap's "verify early" item; Anthropic's
   legal page says Pro/Max limits assume ordinary individual use of Claude Code and the
@@ -147,7 +147,7 @@ compiler, goldens) is the same under both.
   this (a hook can only add context or block, not rewrite or ask the user).
   - Layout: a `mod/` folder in this repo (`.claude-plugin/plugin.json`,
     `hooks/hooks.json`, `hooks/register.js`) that is a thin UI. It calls the Python core
-    as a process (for example an `ocl` command that takes the message and prints JSON).
+    as a process (for example a `prl` command that takes the message and prints JSON).
     That bridge is the intended design but is **untested**.
   - Benefits: no separate REPL, no async stream plumbing, and no SDK auth question,
     because it runs inside the Claude Code you are already signed into.

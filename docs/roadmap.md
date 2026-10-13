@@ -5,7 +5,10 @@ You talk to a free local model first — it clarifies, organizes, and assembles 
 and only a clean, well-structured prompt ever reaches Claude. One target model (Claude),
 deeply optimized. No multi-provider routing.
 
-Name: **OptimizedClaude** — repo: github.com/HawkOsm/OptimizedClaude. CLI command: `ocl`.
+Name: **PRL (Prompt Refine Loop)** — repo: github.com/HawkOsm/prompt-refine-loop
+(renamed from OptimizedClaude to avoid using the Claude trademark). CLI command: `prl`.
+Implementation: Python (decided 2026-10-13; AI/ML jobs mostly ask for Python). A Rust
+skeleton is parked in `rust/` for a possible port after the ML part is finished.
 
 ---
 
@@ -108,7 +111,7 @@ Deliverable: `v0.1` — usable daily by you, even if rough.
 ## Phase 5 — Claude Code integration (2–3 weekends)
 
 Options, in order of increasing depth — decide after living with the CLI:
-- [ ] a) Launcher: `ocl "fix the udp bug"` → clarify/compile locally → spawns
+- [ ] a) Launcher: `prl "fix the udp bug"` → clarify/compile locally → spawns
       `claude -p "<compiled spec>"` in the repo. Simplest, zero interference with caching.
 - [ ] b) MCP server: expose the compiler as a tool inside Claude Code ("refine this with the
       user locally before proceeding"). Inverts control; interesting but weirder UX.

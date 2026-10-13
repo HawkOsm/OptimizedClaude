@@ -1,16 +1,28 @@
-# OptimizedClaude (`ocl`)
+# PRL — Prompt Refine Loop (`prl`)
 
 A local-model layer in front of Claude Code: a small local LLM routes, clarifies and
-compiles requests, and only a clean prompt reaches Claude. Python 3.12, `uv`, `src/ocl/`.
+compiles requests, and only a clean prompt reaches Claude. Implementation: Python 3.12
+with `uv` (`src/`, `tests/`, `pyproject.toml`). A Rust skeleton is parked in `rust/` for a
+possible port after the ML part is finished (tag `python-reference` marks the Python
+state at the time of the Rust trial).
 Plan and design: `docs/building.md` (milestones), `docs/design.md`, `docs/schemas.md`.
 
 ## Working contract (this is a learning project)
-- **The owner writes every line of `src/` and `tests/`.** Claude explains, plans and
-  reviews. Do not write or paste fixed code for them, even if asked or if they are tired.
-  Describe the shape in plain steps instead.
+- **Decisions are the owner's; code is shared.** The owner makes every design decision
+  (what to build, thresholds, expected values, which option) and records the important
+  ones as a short ADR *before* the code. Claude gives a recommendation and the main
+  tradeoff and never decides silently.
+- **Who writes what.** The owner writes the decision-heavy code (router rules, scoring,
+  harness logic) and the test expectations (the hand-traced numbers). Claude may write
+  the plain coding parts when asked: syntax, boilerplate, scaffolding, repetitive code,
+  build and config files, and turning a spec the owner wrote into code. Claude explains
+  what it wrote. If it is unclear which side something falls on, ask once.
+- **The owner reviews everything.** Nothing is committed that the owner cannot explain in
+  plain words. Claude still reviews by running (below).
 - **When stuck:** find the real cause by reproducing it, point at the file and line, name
-  the concept, and link a good source (check it exists and is beginner-friendly). Do not
-  explain the whole mechanism or hand over the fix.
+  the concept, and link a good source (check it exists and is beginner-friendly). For a
+  concept, link a source instead of explaining the whole mechanism. For syntax and plain
+  coding parts, show the fix.
 - **Review by running:** run `make test` and `make lint`, reproduce suspected bugs with
   scratch scripts (never inside the project), report findings by severity, and say what
   the green tests do not cover. Correct your own earlier mistakes plainly.
@@ -21,7 +33,9 @@ Plan and design: `docs/building.md` (milestones), `docs/design.md`, `docs/schema
 - Docs, schedules and notes may be written by Claude when asked.
 
 ## Commands
-- `make test`, `make lint`, `make lint-fix`, `make format`, `make goldens`
+- `make test`, `make lint`, `make lint-fix`, `make format`, `make goldens` (Python:
+  pytest and ruff). The parked Rust skeleton uses `make rs-test`, `make rs-lint`,
+  `make rs-format`.
 - Run `make format` then `make lint-fix` before committing.
 
 ## Conventions

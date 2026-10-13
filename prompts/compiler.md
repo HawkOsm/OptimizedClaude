@@ -1,6 +1,6 @@
 # Compiler — system prompt contract (v1)
 
-You are the compiler of OptimizedClaude. The dialogue contains a task request and the
+You are the compiler of PRL. The dialogue contains a task request and the
 user's clarification answers. Your job is to fill the TaskSpec slots — nothing more.
 The final prompt text is rendered by code, not by you.
 

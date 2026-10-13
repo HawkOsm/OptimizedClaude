@@ -1,4 +1,4 @@
-# OptimizedClaude — Engineering Design v1
+# PRL — Engineering Design v1
 
 Companion to `roadmap.md`. This document is the contract for implementation:
 no code exists yet; when code and this doc disagree, one of them is wrong and must be fixed.
@@ -61,7 +61,7 @@ trivia. Everything degrades gracefully to "thin claude wrapper" if the local sid
 - NFR2 robustness: layer crash must not lose the Claude session (session_id persisted;
   restart offers resume).
 - NFR3 privacy: nothing leaves the machine except the `claude` CLI's own traffic. No
-  telemetry. Ledger stays in the repo (`.ocl/`, gitignored by default).
+  telemetry. Ledger stays in the repo (`.prl/`, gitignored by default).
 - NFR4 quality: pydantic schemas everywhere the local model outputs JSON; typed code;
   pytest; prompt files are versioned artifacts with their own tests.
 
@@ -147,9 +147,9 @@ compiler drift, (d) v2: a local verifier pass diffing spec content against dialo
   normally (slimming Claude's context is explicitly out of scope in v1).
 - Events consumed: assistant text deltas → stream to REPL; tool-use start → one-liner;
   result message → extract usage/cost/session_id → ledger.
-- Session lifecycle: session_id persisted to `.ocl/session.json`; on start, if present,
+- Session lifecycle: session_id persisted to `.prl/session.json`; on start, if present,
   offer resume; `/new` clears it. Ctrl+C during a stream calls `interrupt()`.
-- **Version pinning:** pin the SDK and CLI versions together (`.ocl/versions`) — session
+- **Version pinning:** pin the SDK and CLI versions together (`.prl/versions`) — session
   resume has broken across mismatched CLI versions in the wild. Record both in the ledger.
 
 ## 8. Local model spec
@@ -226,7 +226,7 @@ Only one Claude stream at a time; input during streaming is queued (or Ctrl+C to
 
 | Item                           | Default                                                                     |
 | ------------------------------ | --------------------------------------------------------------------------- |
-| Project name                   | **OptimizedClaude** (repo); python package + CLI command: `ocl`     |
+| Project name                   | **PRL** (repo); CLI command: `prl` (Python package still `ocl`, rename pending) |
 | REPL lib                       | `prompt_toolkit` v1; Textual only if scrollback/stream rendering hurts    |
 | Where triage answers come from | Same 7–8B model, no web access, tagged`[local]`                          |
 | Trivial-answer risk appetite   | Conservative: router requires high confidence for TRIVIAL, else PASSTHROUGH |

@@ -2,7 +2,7 @@
 
 Everything design.md references but doesn't spell out. Code must match this file.
 
-## 1. Ledger — `.ocl/ledger.jsonl`
+## 1. Ledger — `.prl/ledger.jsonl`
 
 One JSON object per line. Common envelope on every event:
 
@@ -34,10 +34,10 @@ Event types and their extra fields:
 `input_tokens`, `output_tokens`, `cache_read_input_tokens`, `cache_creation_input_tokens`,
 `cost_usd` (null on subscription).
 
-Rules: append-only; write failures never crash the app (§11 design.md); `.ocl/` is
+Rules: append-only; write failures never crash the app (§11 design.md); `.prl/` is
 gitignored in target repos.
 
-## 2. Config — `~/.config/ocl/config.toml` (global) + `.ocl.toml` (per-repo overrides)
+## 2. Config — `~/.config/prl/config.toml` (global) + `.prl.toml` (per-repo overrides)
 
 Full example with every knob and its default:
 
@@ -70,10 +70,10 @@ model = ""                         # empty = Claude Code's own default
 
 [ledger]
 enabled = true
-path = ".ocl/ledger.jsonl"
+path = ".prl/ledger.jsonl"
 ```
 
-Precedence: per-repo `.ocl.toml` > global config > built-in defaults. Unknown keys → warn,
+Precedence: per-repo `.prl.toml` > global config > built-in defaults. Unknown keys → warn,
 don't crash.
 
 ## 3. TaskSpec render template (deterministic)

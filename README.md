@@ -1,4 +1,4 @@
-# OptimizedClaude
+# PRL
 
 A local-first frontend for Claude Code. You talk to a small Ollama model running on your
 own GPU; it routes, clarifies, and compiles your requests — and only clean, well-structured

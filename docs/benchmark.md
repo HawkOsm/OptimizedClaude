@@ -32,7 +32,7 @@ Three fixed tasks, chosen to represent real work. Each defines its own success c
    with a fresh Claude session (`/new`). No leftover context.
 2. **Arm A (baseline):** perform the task in plain Claude Code, typing as you normally
    would. No special effort to write good prompts — the baseline is honest habits.
-3. **Arm B (tool):** same task through OptimizedClaude, fresh worktree, fresh session.
+3. **Arm B (tool):** same task through PRL, fresh worktree, fresh session.
 4. Run each (task, arm) pair **3 times** (LLM variance is real); report median and range,
    not best-of.
 5. Record outcome before reading token numbers, to avoid grading drift.
